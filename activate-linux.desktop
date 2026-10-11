@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Activate Linux Watermark
+Exec=python3 /path/to/activate-linux.py
+X-GNOME-Autostart-enabled=true
+NoDisplay=true
