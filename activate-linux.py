@@ -33,8 +33,31 @@ l2.setAttribute(Qt.WA_TransparentForMouseEvents)
 layout.addWidget(l1)
 layout.addWidget(l2)
 
-w.resize(320, 70)
-w.move(1280 - 320 - 25, 720 - 70 - 65)
+WIN_W, WIN_H = 320, 70
+MARGIN_R, MARGIN_B = 25, 65
+w.resize(WIN_W, WIN_H)
+
+def reposition():
+    screen = app.primaryScreen()
+    if screen is None:
+        return
+    g = screen.geometry()
+    w.move(g.width() - WIN_W - MARGIN_R, g.height() - WIN_H - MARGIN_B)
+
+reposition()
 w.show()
+
+# ikut resolusi layar secara otomatis tiap berubah
+def on_screen_changed(screen):
+    try:
+        screen.geometryChanged.connect(lambda _g: reposition())
+    except Exception:
+        pass
+    reposition()
+
+scr = app.primaryScreen()
+if scr is not None:
+    scr.geometryChanged.connect(lambda _g: reposition())
+app.primaryScreenChanged.connect(on_screen_changed)
 
 sys.exit(app.exec_())
